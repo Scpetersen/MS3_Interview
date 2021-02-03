@@ -51,6 +51,7 @@ public class Controller {
         String line = "";
         try{
             BufferedReader br = new BufferedReader(new FileReader(inputPath));
+            br.readLine();
             while((line = br.readLine()) != null)
             {
                 String[] row = line.split(",");
