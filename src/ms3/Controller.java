@@ -81,7 +81,7 @@ public class Controller {
                     /* 
                         Some of these have an apostrophe, which messes up the 
                         INSERT sql query.  So we have to search for that value
-                        and make it an escape character.
+                        and add an escape character.
                     */
                     int ind = temp[9].indexOf('\'');
                     if(ind > -1 && ind < temp[9].length()){
