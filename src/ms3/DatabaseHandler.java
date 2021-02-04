@@ -12,15 +12,15 @@ import java.sql.*;
  * @author Stephen Petersen
  */
 public class DatabaseHandler {
-    //createDB should only be done if the db doesn't exist
-    // createTable if the table doesn't already exist
-    // insert data
     
     public DatabaseHandler() {    
     }
 
 
-        
+    
+    /* Not the best name.  Its original purpose was to test the database,
+       but now it checks if the table exists, and creates a new table if
+       one is not found. */
     void OpenDB(String path, String table){
         Connection c = null;
         Statement stmt = null;
@@ -28,14 +28,13 @@ public class DatabaseHandler {
         try{
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection(path);
+            /* Check if the table exists */
             DatabaseMetaData metaData = c.getMetaData();
             ResultSet resultSet = metaData.getTables(null, null, table, null);
-
             if(!resultSet.next()){
-
-           // System.out.println("Opened database.");
-            stmt = c.createStatement();
-            String sql = "CREATE TABLE " + table
+                // IF the table doesn't exist, create it.
+                stmt = c.createStatement();
+                String sql = "CREATE TABLE " + table
                    + " (A        TEXT,"
                    + " B        TEXT,"
                    + " C        TEXT,"
@@ -60,9 +59,8 @@ public class DatabaseHandler {
 
 
 
+    /* Inserts a row into the table */
     public void insert(String[] row, String path, String table){
-
-        
         Connection c = null;
         Statement stmt = null;
     
@@ -70,7 +68,7 @@ public class DatabaseHandler {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection(path);
             c.setAutoCommit(false);
-
+            // Here's the SQL query to insert a row.
             stmt = c.createStatement();
             String sql = "INSERT INTO " + table + " (A,B,C,D,E,F,G,H,I,J) "
                 +   "VALUES ('" + row[0] + "', "
